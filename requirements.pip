@@ -1,0 +1,5 @@
+-r
+Flask==0.9
+Flask-Bootstrap==2.2.1-1
+Flask-Celery==2.4.3
+Flask-Redis==0.2

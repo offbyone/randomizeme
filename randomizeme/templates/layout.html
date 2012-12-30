@@ -1,0 +1,46 @@
+{% extends "bootstrap_base.html" %}
+
+{% import "bootstrap_wtf.html" as wtf %}
+
+{% set navigation_bar = [
+    (url_for("upload_library"), 'upload', 'Update My Library'),
+    ('#', 'mixes', 'Mixes for Me'),
+    ('#', 'mixes/new', 'Create a Mix'),
+    ('#', 'social', 'Friends'),
+] -%}
+{% set active_page = active_page|default('index') -%}
+
+{% block body_content %}
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <a class="brand" href="#">MixTape</a>
+    <ul class="nav">
+      {% for href, id, caption in navigation_bar %}
+      <li{% if id == active_page %} class="active"{% endif %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
+      {% endfor %}
+    </ul>
+    <ul class="nav pull-right">
+      <li>
+      {% block user %}
+        {% if 'twitter_user' not in session %}
+          <a href="/login">Sign in with Twitter</a>
+        {% else %}
+          <a href="/logout">Sign Out {{session['twitter_user']}}</a>
+        {% endif %}
+      {% endblock %}
+      </li>
+    </ul>
+  </div>
+</div>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+{% endblock body_content %}

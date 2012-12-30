@@ -1,12 +1,41 @@
-{% extends "bootstrap_responsive.html" %}
+{% extends "bootstrap_base.html" %}
+
 {% import "bootstrap_wtf.html" as wtf %}
 
 {% block body_content %}
-{% block user %}
-    {% if 'twitter_user' not in session %}
-        <a href="/login">Sign in with Twitter</a>
-    {% else %}
-        <a href="/logout">Sign Out {{session['twitter_user']}}</a>
-    {% endif %}
-{% endblock %}
+
+
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <a class="brand" href="#">MixTape</a>
+    <ul class="nav">
+      <li class="active"><a href="#">Update my Library</a></li>
+      <li><a href="#">Mixes for Me</a></li>
+      <li><a href="#">Make a Mix</a></li>
+      <!--<li><a href="#">Friends</a></li> -->
+    </ul>
+    <ul class="nav pull-right">
+      <li>
+      {% block user %}
+        {% if 'twitter_user' not in session %}
+          <a href="/login">Sign in with Twitter</a>
+        {% else %}
+          <a href="/logout">Sign Out {{session['twitter_user']}}</a>
+        {% endif %}
+      {% endblock %}
+      </li>
+    </ul>
+  </div>
+</div>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 {% endblock body_content %}

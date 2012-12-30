@@ -2,12 +2,15 @@ from flask import render_template, redirect, url_for, session, request, current_
 
 from randomizeme import app
 from randomizeme.utils import twitter_factory, oauth
+from randomizeme.decorators import login_required
 
 twitter = twitter_factory(oauth)
+
 
 @twitter.tokengetter
 def get_twitter_oauth_token():
     return session.get('oauth_token')
+
 
 @app.route('/')
 def home():
@@ -24,7 +27,7 @@ def login():
 @app.route('/twitter/authorized')
 @twitter.authorized_handler
 def twitter_authorized(resp):
-    next_url = request.args.get('next') or url_for('.index')
+    next_url = request.args.get('next') or url_for('.home')
     if resp is None:
         flash(u'You denied the request to sign in.')
         return redirect(next_url)
@@ -46,6 +49,7 @@ def logout():
 
 
 @app.route('/upload-library')
+@login_required
 def upload_library():
     pass
 

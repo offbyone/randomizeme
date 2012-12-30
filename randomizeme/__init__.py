@@ -9,6 +9,7 @@ class DefaultConfig(object):
     TWITTER_OAUTH_CONSUMER_SECRET = None
     # this must be changed for deployment
     SECRET_KEY = "l\x96\x9c9\xfa08DTT\xb6\x1d,\xbda\x02\x9b\x85\xf3\xff1\xf5\xb1\xaa"
+    BOOTSTRAP_CSS = "css/bootstrap-superhero.css"
 
 app = Flask(__name__)
 app.config.from_object('randomizeme:DefaultConfig')

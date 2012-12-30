@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 from flask.ext.bootstrap import Bootstrap
-
+from flask.ext.sqlalchemy import SQLAlchemy
 
 class DefaultConfig(object):
     TWITTER_OAUTH_CONSUMER_KEY = None
@@ -15,7 +15,8 @@ app.config.from_object('randomizeme:DefaultConfig')
 if 'RANDOMIZEME_SETTINGS' in os.environ:
     app.config.from_envvar('RANDOMIZEME_SETTINGS')
 Bootstrap(app)
+db = SQLAlchemy(app)
 
-app.secret_key = app.config.SECRET_KEY
+app.secret_key = app.config['SECRET_KEY']
 
 import randomizeme.views

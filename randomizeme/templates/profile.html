@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% import "bootstrap_wtf.html" as wtf %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% include "security/_messages.html" %}
+
+{% set active_page = "profile" -%}
+{% block body_content %}
+{{ super() }}
+{% macro show_provider_button(provider_id, display_name, conn) %}
+    {% if conn %}
+    <form action="{{ url_for('flask_social.remove_connection', provider_id=conn.provider_id, provider_user_id=conn.provider_user_id) }}" method="DELETE">
+      <input type="submit" value="Disconnect {{ display_name }}" />
+    </form>
+    {% else %}
+    <form action="{{ url_for('flask_social.connect', provider_id=provider_id) }}" method="POST">
+      <input type="submit" value="Connect {{ display_name }}" />
+    </form>
+    {% endif %}
+{% endmacro %}
+
+{{ show_provider_button('twitter', 'Twitter', twitter_conn) }}
+{% endblock body_content %}
